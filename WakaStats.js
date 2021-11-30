@@ -31,7 +31,7 @@ const Cache = importModule('Cache');
 const cache = new Cache('WakaStats');
 
 // Fetch data and create widget
-const data = await fetchWaka();
+const data = await fetchData();
 const widget = createWidget(data);
 
 const DATERANGE = 'last_7_days';
@@ -109,20 +109,41 @@ function createWidget(data) {
 /**
  * Fetch pieces of data for the widget.
  */
-async function fetchWaka() {
+async function fetchData() {
+  
+  // Get the weather data
+  const name = await nameLine();
+
+  // Get next work/personal calendar events
+  const categories = await categoriesLine();
+
+  const editors = await editorsLine();
+
+  // Get period data
+  const languages = await languagesLine();
+
+// Get period data
+  const dayAv = await dayAvLine();
+
+// Get period data
+  const total = await totalLine();
+
+// Get period data
+  const opSys = await opSysLine();
+
 
   // Get last data update time (and set)
   const lastUpdated = await getLastUpdated();
   cache.write(CACHE_KEY_LAST_UPDATED, new Date().getTime());
 
   return {
-    nameLine,
-    categoriesLine,
-    editorsLine,
-    languagesLine,
-    dayAvLine,
-    totalLine,
-    opSysLine,
+    name,
+    categories,
+    editors,
+    languages,
+    dayAv,
+    total,
+    opSys,
     lastUpdated,
   };
 }
@@ -132,11 +153,12 @@ async function fetchWaka() {
  *****************************************************************************/
 
 /**
- * Fetch the data from WakaStats */
-async function fetchWaka() {
-  const url = 'https://wakatime.com//api/v1/users/" + WAKAUSER + "/stats/" + DATERANGE';  
+ * Fetch the data from WakaStats */// 
+async function fetchData() {
+  const url = 'https://wakatime.com/api/v1/users/" + WAKAUSER + "/stats/" + DATERANGE';  
   }// 
-// const fetch = await fetchJson(url);
+  
+ const fetch = await fetchJson(url);
 
 //-------------------------------------
 // Misc. Helper Functions
@@ -148,6 +170,7 @@ async function fetchWaka() {
  * @param {*} url URL to make the request to
  * @param {*} headers Headers for the request
  */
+
 async function fetchJson(url, headers) {
   try {
     console.log('Fetching url: ${url}');
@@ -158,4 +181,18 @@ async function fetchJson(url, headers) {
   } catch (error) {
     console.error('Error fetching from url: ${url}, error: ${JSON.stringify(error)}');
   }
+}
+
+/**
+ * Get the last updated timestamp from the Cache.
+ */
+async function getLastUpdated() {
+  let cachedLastUpdated = await cache.read(CACHE_KEY_LAST_UPDATED);
+
+  if (!cachedLastUpdated) {
+    cachedLastUpdated = new Date().getTime();
+    cache.write(CACHE_KEY_LAST_UPDATED, cachedLastUpdated);
+  }
+
+  return cachedLastUpdated;
 }
