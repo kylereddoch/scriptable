@@ -6,9 +6,9 @@ These are open-spource and your are free to use them for your personal use. It w
 
 If you enjoy these scripts and find them useful, please consider sponsoring so I can continue the work that I do.
 
-### Scripts
+## Scripts
 
-#### WakaStats
+### WakaStats
 
 This script shows you your stats from WakaTime for the Last 7 days.
 
