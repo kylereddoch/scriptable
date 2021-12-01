@@ -7,6 +7,12 @@
 
 // Cache keys and default location
 const CACHE_KEY_LAST_UPDATED = 'last_updated';
+
+// Date range for Waka data
+const DATERANGE = 'last_7_days';
+
+// Get current date and time
+const updatedAt = new Date().toLocaleString();
  
 // Font name and size
 const FONT_NAME = 'Menlo';
@@ -19,8 +25,8 @@ const COLORS = {
 };
 
 // TODO: PLEASE SET THESE VALUES
-const YOURNAME = 'Kyle';
-const WAKAUSER = 'kylereddoch'; // Your wakatime username
+const YOURNAME = 'TODO'; // Enter your first name
+const WAKAUSER = 'TODO'; // Your wakatime username
 
 /******************************************************************************
  * Initial Setups
@@ -34,7 +40,6 @@ const cache = new Cache('WakaStats');
 const data = await fetchData();
 const widget = createWidget(data);
 
-const DATERANGE = 'last_7_days';
 const bgColor = new LinearGradient();
     bgColor.colors = [new Color("#29323c"), new Color("#1c1c1c")];
     bgColor.locations = [0.0, 1.0];
@@ -47,7 +52,7 @@ Script.complete();
  * Main Functions (Widget and Data-Fetching)
  *****************************************************************************/
 
-/*
+/**
  * Main widget function.
  * 
  * @param {} data The data for the widget to display
@@ -68,39 +73,39 @@ function createWidget(data) {
   stack.spacing = 4;
   stack.size = new Size(320, 0);
 
-  // Line 0 - Name
-  const nameLine = stack.addText('WakaStats for' + " " + YOURNAME + " " + "| Last 7 days");
-  nameLine.textColor = Color.white();
-  nameLine.textOpacity = 0.7;
-  nameLine.font = new Font(FONT_NAME, FONT_SIZE);
+  // Line 0 - Title
+  const titleLine = stack.addText('WakaStats for' + " " + YOURNAME + " | " + updatedAt);
+  titleLine.textColor = Color.white();
+  titleLine.textOpacity = 0.7;
+  titleLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 1 - Categories
-  const categoriesLine = stack.addText('Categories: ${categories}');
+  const categoriesLine = stack.addText('Categories:' + " " + data.waka.categories);
   categoriesLine.textColor = Color.white();
   categoriesLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 2 - Editors
-  const editorsLine = stack.addText('Editors: ${editors}');
+  const editorsLine = stack.addText('Editors:' + " " + data.waka.editors);
   editorsLine.textColor = Color.white();
   editorsLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 3 - Languages
-  const languagesLine = stack.addText('Languages: ${languages}');
+  const languagesLine = stack.addText('Languages:' + " " + data.waka.languages);
   languagesLine.textColor = Color.white();
   languagesLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 4 - Daily Average Coding Time
-  const dayAvLine = stack.addText('Daily Average: ${dayAv}');
+  const dayAvLine = stack.addText('Daily Average:' + " " + data.waka.dayAv);
   dayAvLine.textColor = Color.white();
   dayAvLine.font = new Font(FONT_NAME, FONT_SIZE);
   
   // Line 5 - Total Coding Time
-  const totalLine = stack.addText('Total: &{total}');
+  const totalLine = stack.addText('Total:' + " " + data.waka.total);
   totalLine.textColor = Color.white();
   totalLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 6 - Operating Systems
-  const opSysLine = stack.addText('Operating Systems Used: ${opSys}');
+  const opSysLine = stack.addText('Operating Systems Used:' + " " + data.waka.opSys);
   opSysLine.textColor = Color.white();
   opSysLine.font = new Font(FONT_NAME, FONT_SIZE);
 
@@ -140,6 +145,7 @@ async function fetchData() {
 async function fetchWaka() {
   
   const url = "https://wakatime.com/api/v1/users/" + WAKAUSER + "/stats/" + DATERANGE;
+  
   const data = await fetchJson(url);
 
   if (!data) {
@@ -147,12 +153,12 @@ async function fetchWaka() {
     }
   
   return {
-    categories: data.categories[0].name,
-    editors: data.editors[0].name,
-    languages: data.languages[0].name,
-    dayAv: data.human_readable_daily_average,
-    total: data.human_readable_total,
-    opSys: data.operating_systems[0].name,
+    categories: data.data.categories.map(e => e.name).join(", "),
+    editors: data.data.editors.map(e => e.name).join(", "),
+    languages: data.data.languages.map(e => e.name).join(", "),
+    dayAv: data.data.human_readable_daily_average,
+    total: data.data.human_readable_total,
+    opSys: data.data.operating_systems.map(e => e.name).join(", "),
   }
 }
 
@@ -160,7 +166,7 @@ async function fetchWaka() {
 // Misc. Helper Functions
 //-------------------------------------
 
-/*
+/**
  * Make a REST request and return the response
  * 
  * @param {*} url URL to make the request to
