@@ -47,11 +47,12 @@ Script.complete();
  * Main Functions (Widget and Data-Fetching)
  *****************************************************************************/
 
-/**
+/*
  * Main widget function.
  * 
  * @param {} data The data for the widget to display
  */
+
 function createWidget(data) {
   console.log(`Creating widget with data: ${JSON.stringify(data)}`);
 
@@ -74,76 +75,52 @@ function createWidget(data) {
   nameLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 1 - Categories
-  const categoriesLine = stack.addText('Categories: ${data.categories.name}');
+  const categoriesLine = stack.addText('Categories: ${categories}');
   categoriesLine.textColor = Color.white();
   categoriesLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 2 - Editors
-  const editorsLine = stack.addText('Editors: ${data.editors.name}');
+  const editorsLine = stack.addText('Editors: ${editors}');
   editorsLine.textColor = Color.white();
   editorsLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 3 - Languages
-  const languagesLine = stack.addText('Languages: ${data.languages.name}');
+  const languagesLine = stack.addText('Languages: ${languages}');
   languagesLine.textColor = Color.white();
   languagesLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 4 - Daily Average Coding Time
-  const dayAvLine = stack.addText('Daily Average: ${data.human_readable_daily_average}');
+  const dayAvLine = stack.addText('Daily Average: ${dayAv}');
   dayAvLine.textColor = Color.white();
   dayAvLine.font = new Font(FONT_NAME, FONT_SIZE);
   
   // Line 5 - Total Coding Time
-  const totalLine = stack.addText('Total: ${data.human_readable_total}');
+  const totalLine = stack.addText('Total: &{total}');
   totalLine.textColor = Color.white();
   totalLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 6 - Operating Systems
-  const opSysLine = stack.addText('Operating Systems Used: ${data.operating_systems.name}');
+  const opSysLine = stack.addText('Operating Systems Used: ${opSys}');
   opSysLine.textColor = Color.white();
   opSysLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   return widget;
 }
 
-/**
+/*
  * Fetch pieces of data for the widget.
  */
+
 async function fetchData() {
+  // Get the waka data
+  const waka = await fetchWaka();
   
-  // Get the weather data
-  const name = await nameLine();
-
-  // Get next work/personal calendar events
-  const categories = await categoriesLine();
-
-  const editors = await editorsLine();
-
-  // Get period data
-  const languages = await languagesLine();
-
-// Get period data
-  const dayAv = await dayAvLine();
-
-// Get period data
-  const total = await totalLine();
-
-// Get period data
-  const opSys = await opSysLine();
-
-
   // Get last data update time (and set)
   const lastUpdated = await getLastUpdated();
   cache.write(CACHE_KEY_LAST_UPDATED, new Date().getTime());
 
   return {
-    name,
-    categories,
-    editors,
-    languages,
-    dayAv,
-    total,
-    opSys,
+    waka,
     lastUpdated,
   };
 }
@@ -152,19 +129,38 @@ async function fetchData() {
  * Helper Functions
  *****************************************************************************/
 
-/**
- * Fetch the data from WakaStats */// 
-async function fetchData() {
-  const url = 'https://wakatime.com/api/v1/users/" + WAKAUSER + "/stats/" + DATERANGE';  
-  }// 
+//-------------------------------------
+// Wakatime Helper Functions
+//-------------------------------------
+
+/*
+ * Fetch the stats from Wakatime
+ */
+
+async function fetchWaka() {
   
- const fetch = await fetchJson(url);
+  const url = "https://wakatime.com/api/v1/users/" + WAKAUSER + "/stats/" + DATERANGE;
+  const data = await fetchJson(url);
+
+  if (!data) {
+    return 'No data found';
+    }
+  
+  return {
+    categories: data.categories[0].name,
+    editors: data.editors[0].name,
+    languages: data.languages[0].name,
+    dayAv: data.human_readable_daily_average,
+    total: data.human_readable_total,
+    opSys: data.operating_systems[0].name,
+  }
+}
 
 //-------------------------------------
 // Misc. Helper Functions
 //-------------------------------------
 
-/**
+/*
  * Make a REST request and return the response
  * 
  * @param {*} url URL to make the request to
@@ -183,9 +179,10 @@ async function fetchJson(url, headers) {
   }
 }
 
-/**
+/*
  * Get the last updated timestamp from the Cache.
  */
+
 async function getLastUpdated() {
   let cachedLastUpdated = await cache.read(CACHE_KEY_LAST_UPDATED);
 
