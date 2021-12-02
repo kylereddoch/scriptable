@@ -28,7 +28,14 @@ This script depends on the Cache.js script (above) from [EvanDColeman](https://g
 1. Grab both the WakaStats.js and Cache.js scripts from the /src folder.
 2. Place them in the Scriptable folder in your iCloud Drive or copy and paste the code into a new scriptable in the scriptable.app.
 3. Fill out the values in the TODO section of the WakaStats.js script.
-4. Enjoy!
+
+```javascript
+// TODO: PLEASE SET THESE VALUES
+const YOURNAME = 'TODO';
+const WAKAUSER = 'TODO';
+```
+
+You may also set up [automations in Shortcuts](https://support.apple.com/guide/shortcuts/create-a-new-personal-automation-apdfbdbd7123/ios) to run this script, to check for updates at times other than the ones dictated by Scriptable's normal widget refresh interval.
 
 #### Shoutouts
 
