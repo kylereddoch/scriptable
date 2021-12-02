@@ -12,7 +12,7 @@ If you enjoy these scripts and find them useful, please consider sponsoring so I
 
 ![](/images/wakastats.jpeg)
 
-This script shows you your stats from WakaTime for the Last 7 days.
+This script shows you your combined stats from WakaTime for the Last 7 days.
 
 - Categories
 - Editors
