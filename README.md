@@ -10,7 +10,7 @@ If you enjoy these scripts and find them useful, please consider sponsoring so I
 
 ### WakaStats
 
-![WakaStats](/images/wakastats.jpeg)
+![](/images/wakastats.jpeg)
 
 This script shows you your stats from WakaTime for the Last 7 days.
 
@@ -29,3 +29,10 @@ This script depends on the Cache.js script (above) from [EvanDColeman](https://g
 2. Place them in the Scriptable folder in your iCloud Drive or copy and paste the code into a new scriptable in the scriptable.app.
 3. Fill out the values in the TODO section of the WakaStats.js script.
 4. Enjoy!
+
+#### Shoutouts
+
+I want to send a HUGE thanks to the follow people for helping me with this script. I'd probably still be stuck on some errors if it wasnt for them ☺️.
+
+- [Simon Stovring](https://twitter.com/simonbs)
+- [Josh Holtz](https://twitter.com/joshdholtz?s=21)
