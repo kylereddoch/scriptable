@@ -2,7 +2,7 @@
  * Constants and Configurations
 *****************************************************************************/
 
-// NOTE: This script uses the Cache script (https://github.com/kylereddoch/scriptable/Cache.js)
+// NOTE: This script uses the Cache script (https://github.com/kylereddoch/scriptable/src/Cache.js)
 // Make sure to add the Cache script in Scriptable as well!
 
 // Cache keys and default location
@@ -16,7 +16,7 @@ const updatedAt = new Date().toLocaleString();
  
 // Font name and size
 const FONT_NAME = 'Menlo';
-const FONT_SIZE = 10;
+const FONT_SIZE = 9;
 
 // Colors
 const COLORS = {
@@ -25,7 +25,7 @@ const COLORS = {
 };
 
 // TODO: PLEASE SET THESE VALUES
-const YOURNAME = 'TODO'; // Enter your first name
+const YOURNAME = 'TODO';
 const WAKAUSER = 'TODO'; // Your wakatime username
 
 /******************************************************************************
@@ -66,48 +66,54 @@ function createWidget(data) {
   bgColor.colors = [new Color(COLORS.bg0), new Color(COLORS.bg1)];
   bgColor.locations = [0.0, 1.0];
   widget.backgroundGradient = bgColor;
-  widget.setPadding(10, 15, 15, 10);
+  widget.setPadding(10, 10, 10, 10);
 
   const stack = widget.addStack();
   stack.layoutVertically();
-  stack.spacing = 4;
+  stack.spacing = 4.85;
   stack.size = new Size(320, 0);
 
   // Line 0 - Title
-  const titleLine = stack.addText('WakaStats for' + " " + YOURNAME + " | " + updatedAt);
+  const titleLine = stack.addText('WakaStats for' + " " + YOURNAME + " | Last 7 Days");
   titleLine.textColor = Color.white();
   titleLine.textOpacity = 0.7;
   titleLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 1 - Categories
-  const categoriesLine = stack.addText('Categories:' + " " + data.waka.categories);
+  const categoriesLine = stack.addText('🗂 Categories:' + " " + data.waka.categories);
   categoriesLine.textColor = Color.white();
   categoriesLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 2 - Editors
-  const editorsLine = stack.addText('Editors:' + " " + data.waka.editors);
+  const editorsLine = stack.addText('⚒ Editors:' + " " + data.waka.editors);
   editorsLine.textColor = Color.white();
   editorsLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 3 - Languages
-  const languagesLine = stack.addText('Languages:' + " " + data.waka.languages);
+  const languagesLine = stack.addText('🌎 Languages:' + " " + data.waka.languages);
   languagesLine.textColor = Color.white();
   languagesLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 4 - Daily Average Coding Time
-  const dayAvLine = stack.addText('Daily Average:' + " " + data.waka.dayAv);
+  const dayAvLine = stack.addText('⏱ Daily Average:' + " " + data.waka.dayAv);
   dayAvLine.textColor = Color.white();
   dayAvLine.font = new Font(FONT_NAME, FONT_SIZE);
   
   // Line 5 - Total Coding Time
-  const totalLine = stack.addText('Total:' + " " + data.waka.total);
+  const totalLine = stack.addText('⌛️ Total Time:' + " " + data.waka.total);
   totalLine.textColor = Color.white();
   totalLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 6 - Operating Systems
-  const opSysLine = stack.addText('Operating Systems Used:' + " " + data.waka.opSys);
+  const opSysLine = stack.addText('🖥 Operating Systems Used:' + " " + data.waka.opSys);
   opSysLine.textColor = Color.white();
   opSysLine.font = new Font(FONT_NAME, FONT_SIZE);
+
+// Line 6 - Updated time
+  const updatedTime = stack.addText('Last updated:' + " " + updatedAt);
+  updatedTime.textColor = Color.white();
+  updatedTime.textOpacity = 0.7;
+  updatedTime.font = new Font(FONT_NAME, 7);
 
   return widget;
 }
