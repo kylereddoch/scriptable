@@ -2,7 +2,7 @@
 
 A collection of my scriptable.app scripts.
 
-These are open-spource and you are free to use them for your personal use. It would be nice to get credit for them though.
+These are open-spource and you are free to use or edit them for your personal use. It would be nice to get credit for them though.
 
 If you enjoy these scripts and find them useful, please consider sponsoring so I can continue the work that I do.
 
