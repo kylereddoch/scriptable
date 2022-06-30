@@ -13,7 +13,7 @@ const DATERANGE = 'last_7_days';
 
 // Get current date and time
 const updatedAt = new Date().toLocaleString();
- 
+
 // Font name and size
 const FONT_NAME = 'Menlo';
 const FONT_SIZE = 9;
@@ -54,7 +54,7 @@ Script.complete();
 
 /**
  * Main widget function.
- * 
+ *
  * @param {} data The data for the widget to display
  */
 
@@ -85,7 +85,7 @@ function createWidget(data) {
   categoriesLine.font = new Font(FONT_NAME, FONT_SIZE);
 
   // Line 2 - Editors
-  const editorsLine = stack.addText('⚒ Editors:' + " " + data.waka.editors);
+  const editorsLine = stack.addText('🛠 Editors:' + " " + data.waka.editors);
   editorsLine.textColor = Color.white();
   editorsLine.font = new Font(FONT_NAME, FONT_SIZE);
 
@@ -98,7 +98,7 @@ function createWidget(data) {
   const dayAvLine = stack.addText('⏱ Daily Average:' + " " + data.waka.dayAv);
   dayAvLine.textColor = Color.white();
   dayAvLine.font = new Font(FONT_NAME, FONT_SIZE);
-  
+
   // Line 5 - Total Coding Time
   const totalLine = stack.addText('⌛️ Total Time:' + " " + data.waka.total);
   totalLine.textColor = Color.white();
@@ -125,7 +125,7 @@ function createWidget(data) {
 async function fetchData() {
   // Get the waka data
   const waka = await fetchWaka();
-  
+
   // Get last data update time (and set)
   const lastUpdated = await getLastUpdated();
   cache.write(CACHE_KEY_LAST_UPDATED, new Date().getTime());
@@ -149,15 +149,15 @@ async function fetchData() {
  */
 
 async function fetchWaka() {
-  
+
   const url = "https://wakatime.com/api/v1/users/" + WAKAUSER + "/stats/" + DATERANGE;
-  
+
   const data = await fetchJson(url);
 
   if (!data) {
     return 'No data found';
     }
-  
+
   return {
     categories: data.data.categories.map(e => e.name).join(", "),
     editors: data.data.editors.map(e => e.name).join(", "),
@@ -174,7 +174,7 @@ async function fetchWaka() {
 
 /**
  * Make a REST request and return the response
- * 
+ *
  * @param {*} url URL to make the request to
  * @param {*} headers Headers for the request
  */
