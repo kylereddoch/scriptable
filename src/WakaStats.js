@@ -27,6 +27,7 @@ const COLORS = {
 // TODO: PLEASE SET THESE VALUES
 const YOURNAME = 'TODO';
 const WAKAUSER = 'TODO'; // Your wakatime username
+const API_KEY = 'TODO'; // Your wakatime API KEY from https://wakatime.com/api-key
 
 /******************************************************************************
  * Initial Setups
