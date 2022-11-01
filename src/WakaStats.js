@@ -27,6 +27,7 @@ const COLORS = {
 // TODO: PLEASE SET THESE VALUES
 const YOURNAME = 'TODO';
 const WAKAUSER = 'TODO'; // Your wakatime username
+const API_KEY = 'TODO'; // Your wakatime API KEY from https://wakatime.com/api-key
 
 /******************************************************************************
  * Initial Setups
@@ -151,8 +152,10 @@ async function fetchData() {
 async function fetchWaka() {
 
   const url = "https://wakatime.com/api/v1/users/" + WAKAUSER + "/stats/" + DATERANGE;
+  const key = Data.fromString(API_KEY).toBase64String();
+  const headers = {Authorization: `Basic ${key}`};
 
-  const data = await fetchJson(url);
+  const data = await fetchJson(url, headers);
 
   if (!data) {
     return 'No data found';
@@ -181,8 +184,8 @@ async function fetchWaka() {
 
 async function fetchJson(url, headers) {
   try {
-    console.log('Fetching url: ${url}');
-    const req = new Request(url);
+    console.log(`Fetching url: ${url}`);
+    const req = new Request(url, headers);
     req.headers = headers;
     const resp = await req.loadJSON();
     return resp;

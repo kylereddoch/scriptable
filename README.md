@@ -33,6 +33,7 @@ This script depends on the Cache.js script (above) from [EvanDColeman](https://g
 // TODO: PLEASE SET THESE VALUES
 const YOURNAME = 'TODO';
 const WAKAUSER = 'TODO';
+const API_KEY = 'TODO'; // Your wakatime API KEY from https://wakatime.com/api-key   
 ```
 
 You may also set up [automations in Shortcuts](https://support.apple.com/guide/shortcuts/create-a-new-personal-automation-apdfbdbd7123/ios) to run this script, to check for updates at times other than the ones dictated by Scriptable's normal widget refresh interval.
